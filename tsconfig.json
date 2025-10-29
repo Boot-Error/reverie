@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["DOM", "ES2020"],
+    "target": "ESNext",
+    "noEmit": true,
+    "skipLibCheck": true,
+    "useDefineForClassFields": true,
+
+    /* modules */
+    "module": "ESNext",
+    "moduleDetection": "force",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noUncheckedSideEffectImports": true,
+
+    /* type checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
