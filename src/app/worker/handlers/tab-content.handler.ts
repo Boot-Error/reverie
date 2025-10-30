@@ -27,6 +27,7 @@ export class TabContentHandler {
     //
     console.log('Starting tab content reader');
 
+    console.log('Start Tab content script injector');
     await ChromeExtensionConnector.getInstance().onTabNavigate(
       async (tabDetails) => {
         const tabId = tabDetails.tabId;
@@ -59,6 +60,8 @@ export class TabContentHandler {
     );
 
     const tabSummarizationMessageChannel = makeTabSummarizationChannel();
+
+    console.log('Start Tab content capture channel');
     await tabSummarizationMessageChannel.subscribe(
       {},
       async (context, payload) => {
@@ -92,10 +95,24 @@ export class TabContentHandler {
             console.log('Low ranking document, not added to a cluster');
             this.lowRankingTabsCapturedTotal += 1;
           }
+        } else {
+          // since no clusters, there is nothing to rank with
+          this.lowRankingTabsCapturedTotal += 1;
         }
+
         await this.bufferedClustering();
       },
     );
+    // process unprocessed tabs
+    console.log('Check for unprocessed tabs');
+    const unprocessedTabs = await TabContentDb.getInstance().unprocessedTabs();
+    console.log(unprocessedTabs, unprocessedTabs.length);
+    if (unprocessedTabs.length > 5) {
+      console.log('Processing unprocessed tab with thematic update', {
+        tabs: unprocessedTabs.length,
+      });
+      await DashboardHandler.getInstance().updateThematicClusters();
+    }
   }
 
   private async bufferedClustering() {

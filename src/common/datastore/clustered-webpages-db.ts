@@ -3,6 +3,7 @@ export interface ClusterDetails {
   description: string;
   themes: Array<string>;
   collectionTheme: string;
+  cardCaption: string;
 }
 
 // export class ClusteredWebpagesDb {

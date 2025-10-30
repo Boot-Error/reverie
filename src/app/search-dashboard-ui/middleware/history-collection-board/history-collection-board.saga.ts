@@ -22,7 +22,6 @@ import {
 } from '../../../../common/messaging/history-collection-channel/history-collection-channel';
 import type { HistoryCollectionCard } from '../../../../common/history-collection-card/model';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { DashboardHandler } from '../../../worker/handlers/dashboard-handler';
 import { HistoryCollectionBoard } from '../../../../common/history-collection-card/history-collection-card';
 
 export const historyCollectionBoardSagaActions = {

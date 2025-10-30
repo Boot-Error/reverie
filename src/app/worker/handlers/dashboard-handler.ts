@@ -1,9 +1,6 @@
 import determineThematicClustering from '../../../common/llm-functions/determine-cluster';
 import { TabContentDb } from '../../../common/datastore/tab-content-db';
-import {
-  ClusteredWebpagesDb,
-  type ClusterDetails,
-} from '../../../common/datastore/clustered-webpages-db';
+import { ClusteredWebpagesDb } from '../../../common/datastore/clustered-webpages-db';
 import findClusterForDocument from '../../../common/llm-functions/document-cluster-selection';
 import {
   makeHistoryCollectionBoardChannel,
@@ -13,6 +10,7 @@ import { HistoryCollectionBoard } from '../../../common/history-collection-card/
 import determineClusterTheme from '../../../common/llm-functions/determine-cluster-theme';
 import type { WebPageCluster } from '../../../common/llm-functions/model';
 import type { MessagingChannel } from '../../../common/messaging/messaging';
+import getClusterCaption from '../../../common/llm-functions/cluster-card-caption';
 
 export class DashboardHandler {
   private static instance: DashboardHandler;
@@ -40,9 +38,12 @@ export class DashboardHandler {
       clusters.map(async (clusterDetails: WebPageCluster) => {
         const clusterCollectionTheme =
           await determineClusterTheme(clusterDetails);
+
+        const clusterCaption = await getClusterCaption(clusterDetails);
         return {
           ...clusterDetails,
           collectionTheme: clusterCollectionTheme.theme,
+          cardCaption: clusterCaption.caption,
         };
       }),
     );

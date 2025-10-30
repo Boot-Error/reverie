@@ -7,6 +7,11 @@ import {
   historyCollectionBoardSliceReducer,
 } from './history-collection-board/history-collection-board.slice';
 import { historyCollectionBoardSagaWatchers } from './history-collection-board/history-collection-board.saga';
+import {
+  HISTORY_SEARCH_FEATURE_KEY,
+  historySearchSliceReducer,
+} from './history-search/history-search.slice';
+import { historySearchSagaWatchers } from './history-search/history-search.saga';
 
 export type RootState = ReturnType<typeof store.getState>;
 
@@ -16,6 +21,7 @@ export const store = configureStore({
   reducer: {
     [APP_FEATURE_KEY]: appSliceReducer,
     [HISTORY_COLLECTION_BOARD_FEATURE_KEY]: historyCollectionBoardSliceReducer,
+    [HISTORY_SEARCH_FEATURE_KEY]: historySearchSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),
@@ -23,7 +29,10 @@ export const store = configureStore({
 });
 
 function* rootSaga() {
-  yield all([...historyCollectionBoardSagaWatchers]);
+  yield all([
+    ...historyCollectionBoardSagaWatchers,
+    ...historySearchSagaWatchers,
+  ]);
 }
 
 sagaMiddleware.run(rootSaga);

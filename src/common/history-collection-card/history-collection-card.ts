@@ -68,9 +68,11 @@ export class HistoryCollectionBoard {
       textColor: collectionThemeDetails.colors.textOnAccent,
     };
 
+    const cardTitle = cluster?.cardCaption || cluster.name;
+
     // FIXME: populate this properly
     return {
-      cardTitle: cluster.name,
+      cardTitle: cardTitle,
       cardDescription: cluster.description,
       theme: cardTheme,
       webPageDetails: webPageDetails.map(({ url }) => ({

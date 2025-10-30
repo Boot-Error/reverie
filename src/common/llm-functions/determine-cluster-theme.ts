@@ -1,5 +1,4 @@
 import { internetThemes } from '../constants/internet-cluster-themes';
-import type { ClusterDetails } from '../datastore/clustered-webpages-db';
 import type { WebPageCluster } from './model';
 import { checkAvailability, createPromptSession } from './utils';
 
