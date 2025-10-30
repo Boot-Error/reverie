@@ -6,7 +6,8 @@
     "default_popup": "popup.html"
   },
   "background": {
-    "service_worker": "static/js/background.js"
+    "service_worker": "static/js/background.js",
+    "type": "module"
   },
   "permissions": ["storage", "tabs", "history", "scripting", "activeTab"],
   "host_permissions": ["<all_urls>"]

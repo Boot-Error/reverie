@@ -5,13 +5,7 @@ import { HistoryCollectionCardBoardWidget } from '../histoy-collection-card-boar
 export interface HomePageProps {}
 
 export function HomePage(props: HomePageProps) {
-  useEffect(() => {
-    // const pipe = ChromeMessagingPipe.new<{ url: string }>({ name: 'test' });
-    // pipe.subscribe(({ url }) => {
-    //   console.log({ url });
-    // });
-    // return () => {};
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center py-16 px-6">

@@ -11,9 +11,17 @@ export interface WebPageDetails {
   navigateUrl: string;
 }
 
+export interface CardTheme {
+  themeIcon: string;
+  size: string;
+  primaryColor: string;
+  accentColor: string;
+  textColor: string;
+}
+
 export interface HistoryCollectionCard {
   cardTitle: string;
   cardDescription: string;
-  themeIcon: string;
+  theme: CardTheme;
   webPageDetails: Array<WebPageDetails>;
 }

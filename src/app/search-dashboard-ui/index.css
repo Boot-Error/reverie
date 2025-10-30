@@ -3,3 +3,33 @@
 @tailwind utilities;*/
 
 @import 'tailwindcss';
+
+:root {
+  /* search (Information Seeking) */
+  --color-search-primary: #1976d2;
+  --color-search-accent: #64b5f6;
+
+  /* movie (Entertainment Consumption) */
+  --color-movie-primary: #e53935;
+  --color-movie-accent: #ff7043;
+
+  /* shopping_cart (Shopping and Product Research) */
+  --color-shopping_cart-primary: #43a047;
+  --color-shopping_cart-accent: #81c784;
+
+  /* chat (Social Connection) */
+  --color-chat-primary: #8e24aa;
+  --color-chat-accent: #ba68c8;
+
+  /* school (Learning and Skill Development) */
+  --color-school-primary: #fbc02d;
+  --color-school-accent: #fff176;
+
+  /* work (Productivity and Work-Related Tasks) */
+  --color-work-primary: #546e7a;
+  --color-work-accent: #90a4ae;
+
+  /* palette (Personal Expression and Creation) */
+  --color-palette-primary: #fb8c00;
+  --color-palette-accent: #ffb74d;
+}

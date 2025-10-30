@@ -39,6 +39,13 @@ export class TabContentReaderHandler {
     }
   }
 
+  /**
+   *
+   * Summarises the content using text summarizer API
+   *
+   * @param content
+   * @returns
+   */
   private async summarizeText(
     content: string,
   ): Promise<{ contentSummary: string }> {

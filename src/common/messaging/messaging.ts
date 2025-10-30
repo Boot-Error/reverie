@@ -73,7 +73,9 @@ export function newMessageChannel<MessagePayload>(name: string) {
       ) => {
         (async () => {
           const payload = message.payload;
-          await callback({ sender }, payload);
+          if (message.name === name) {
+            await callback({ sender }, payload);
+          }
         })();
       };
       chrome.runtime.onMessage.addListener(onMessageCallback);
