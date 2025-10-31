@@ -11,6 +11,7 @@ import {
 import { eventChannel, type EventChannel } from '@redux-saga/core';
 import type { HistorySearchResultEvent } from '../../../../common/messaging/history-search-channel/model';
 import { appSliceActions } from '../app/app.slice';
+import { historyCollectionBoardSliceActions } from '../history-collection-board/history-collection-board.slice';
 
 export const historySearchSagaActions = {
   searchHistory: createAction<{ query: string }>(

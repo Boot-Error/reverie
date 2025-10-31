@@ -8,6 +8,7 @@ export interface HistoryCollectionCardProps {
 }
 
 export function HistoryCollectionCardWidget(props: HistoryCollectionCardProps) {
+  const clusterName = props.cardDetails.clusterName;
   const cardTitle = props.cardDetails.cardTitle;
   const webPageDetails = props.cardDetails.webPageDetails;
 
@@ -36,6 +37,8 @@ export function HistoryCollectionCardWidget(props: HistoryCollectionCardProps) {
     ));
 
   const handleJumpBackIn = (collectionCard: string) => {
+    console.log('clicked', collectionCard);
+
     dispatch(
       historyCollectionBoardSagaActions.openCollectionInTabGroup({
         collectionCard,
@@ -44,7 +47,7 @@ export function HistoryCollectionCardWidget(props: HistoryCollectionCardProps) {
   };
   return (
     <div
-      className="w-full max-w-sm p-6 rounded-2xl font-sans"
+      className="w-full p-6 rounded-2xl font-sans flex flex-col justify-between min-h-[300px]"
       style={{
         backgroundColor: accentColor,
         borderColor: primaryColor,
@@ -53,38 +56,85 @@ export function HistoryCollectionCardWidget(props: HistoryCollectionCardProps) {
       }}
     >
       {/* Top Section: Icon and Title */}
-      <div className="flex items-center mb-6">
-        <div className="w-12 h-12  mr-4 shrink-0 flex items-center justify-center">
-          <HistoryCollectionCardIcon
-            iconName={themeIcon}
-            iconColor={primaryColor}
-          />
+      <div>
+        <div className="flex items-center mb-6">
+          <div className="w-12 h-12 mr-4 shrink-0 flex items-center justify-center">
+            <HistoryCollectionCardIcon
+              iconName={themeIcon}
+              iconColor={primaryColor}
+            />
+          </div>
+          <h2 className="text-2xl font-medium" style={{ color: textColor }}>
+            {cardTitle}
+          </h2>
         </div>
-        <h2 className="text-3xl font-medium" style={{ color: textColor }}>
-          {cardTitle}
-        </h2>
-      </div>
 
-      {/* Middle Section: Links */}
-      <div className="pl-12 mb-10">
-        <div className="grid grid-cols-1 gap-x-4 gap-y-2">{links}</div>
+        {/* Middle Section: Links */}
+        <div className="pl-12 mb-10 grow">
+          <div className="grid grid-cols-1 gap-x-4 gap-y-2">{links}</div>
+        </div>
       </div>
 
       {/* Bottom Section: Button */}
-      <div className="flex justify-end">
+      <div className="mt-auto flex justify-end pt-6">
         <button
-          // className="px-4 py-2 text-sm font-medium text-slate-900 bg-lime-400 border-2 border-lime-600 rounded-lg shadow-[2px_2px_0px_theme(colors.lime.600)] hover:bg-lime-300 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
-          className="px-4 py-2 text-sm font-medium"
+          className="px-4 py-2 text-xs font-medium rounded-lg border-2 transition-all"
           style={{
             color: textColor,
             backgroundColor: accentColor,
             borderColor: primaryColor,
           }}
-          onClick={() => handleJumpBackIn(cardTitle)}
+          onClick={() => {
+            handleJumpBackIn(clusterName);
+          }}
         >
-          Jump Back -&gt;
+          Jump Back
         </button>
       </div>
     </div>
+
+    // <div
+    //   className="w-full p-6 rounded-2xl font-sans"
+    //   style={{
+    //     backgroundColor: accentColor,
+    //     borderColor: primaryColor,
+    //     color: primaryColor,
+    //     boxShadow: `4px 4px 0px ${primaryColor}`,
+    //   }}
+    // >
+    //   {/* Top Section: Icon and Title */}
+    //   <div className="flex items-center mb-6">
+    //     <div className="w-12 h-12  mr-4 shrink-0 flex items-center justify-center">
+    //       <HistoryCollectionCardIcon
+    //         iconName={themeIcon}
+    //         iconColor={primaryColor}
+    //       />
+    //     </div>
+    //     <h2 className="text-2xl font-medium" style={{ color: textColor }}>
+    //       {cardTitle}
+    //     </h2>
+    //   </div>
+
+    //   {/* Middle Section: Links */}
+    //   <div className="pl-12 mb-10 grow">
+    //     <div className="grid grid-cols-1 gap-x-4 gap-y-2">{links}</div>
+    //   </div>
+
+    //   {/* Bottom Section: Button */}
+    //   <div className="flex justify-end">
+    //     <button
+    //       // className="px-4 py-2 text-sm font-medium text-slate-900 bg-lime-400 border-2 border-lime-600 rounded-lg shadow-[2px_2px_0px_theme(colors.lime.600)] hover:bg-lime-300 active:shadow-none active:translate-x-[2px] active:translate-y-[2px] transition-all"
+    //       className="px-4 py-2 text-sm font-medium"
+    //       style={{
+    //         color: textColor,
+    //         backgroundColor: accentColor,
+    //         borderColor: primaryColor,
+    //       }}
+    //       onClick={() => handleJumpBackIn(cardTitle)}
+    //     >
+    //       Jump Back -&gt;
+    //     </button>
+    //   </div>
+    // </div>
   );
 }

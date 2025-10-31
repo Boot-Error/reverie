@@ -79,6 +79,7 @@ export const historySearchSlice = createSlice({
     },
 
     resetSearchResults(state: HistorySearchState, action: Action) {
+      console.log('reset');
       return {
         ...state,
         searchResults: [],

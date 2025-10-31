@@ -8,6 +8,7 @@ import {
 } from '../messaging/history-search-channel/history-search-channel';
 import type { HistorySearchResultEvent } from '../messaging/history-search-channel/model';
 import type { MessagingChannel } from '../messaging/messaging';
+import { HistoryFullTextSearch } from './full-text-search.handler';
 
 export class HistorySearchHandler {
   private static instance: HistorySearchHandler;
@@ -64,14 +65,19 @@ export class HistorySearchHandler {
     //   {
     //     eventType: 'SEARCH_CLUSTER_RESULT',
     //     searchId,
-    //     scoringCluster: scoringCluster.clusterName,
+    //     scoringCluster: '',
     //   },
     // );
 
-    const webPages = await TabContentDb.getInstance().getAllTabs();
+    const matchingTabs =
+      await HistoryFullTextSearch.getInstance().searchDocument(query);
+
+    const matchingUrls = matchingTabs.map(({ url }) => url);
+
+    console.log({ matchingTabs });
 
     await Promise.all(
-      webPages.map(async (url) => {
+      matchingUrls.map(async (url) => {
         const tab = await TabContentDb.getInstance().getTabContentByUrl(url);
         if (!tab) return;
         const result = await scoreQueryWithTabSummary(
@@ -90,6 +96,14 @@ export class HistorySearchHandler {
           },
         );
       }),
+    );
+
+    this.historySearchResultEventChannel.send(
+      {},
+      {
+        eventType: 'SEARCH_END',
+        searchId,
+      },
     );
   }
 }

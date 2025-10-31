@@ -72,6 +72,7 @@ export class HistoryCollectionBoard {
 
     // FIXME: populate this properly
     return {
+      clusterName: cluster.name,
       cardTitle: cardTitle,
       cardDescription: cluster.description,
       theme: cardTheme,

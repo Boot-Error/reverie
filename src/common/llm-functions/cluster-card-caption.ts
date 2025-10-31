@@ -23,7 +23,7 @@ export default async function getClusterCaption(
     From the following text:
     "${clusterDetails.description}"
 
-    Create a actionable caption with 4-8 words
+    Translate the text to caption which is catchy to capture user's attention. make it short of 10-12 words max
     `;
 
   const result = await session.prompt(clusterCaptionPrompt, {

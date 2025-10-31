@@ -10,12 +10,14 @@ export function HomePage(props: HomePageProps) {
   const screen = useSelector(appSliceSelectors.getHomepageScreen);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-16 px-6">
+    <div className="min-h-screen flex flex-col items-center py-16 px-6">
       {/* Title */}
-      <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">
+      <h1 className="text-5xl font-bold  text-[#3a2f2a] mb-6 text-center">
         Browse what you have already browsed..
       </h1>
-      <HistorySearchBar />
+      <div className="mt-6 w-xl">
+        <HistorySearchBar />
+      </div>
       {screen === 'COLLECTION' && <HistoryCollectionCardBoardWidget />}
       {screen === 'SEARCH_RESULT' && <HistorySearchResult />}
     </div>

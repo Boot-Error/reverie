@@ -91,58 +91,111 @@ const pluginZipAfterBuild = (): RsbuildPlugin => ({
 // });
 
 export default defineConfig({
-  plugins: [pluginReact()],
-  source: {
-    entry: {
-      popup: './src/app/popup-ui/main.tsx',
-      'search-dashboard': './src/app/search-dashboard-ui/main.tsx',
-      'tab-content-grabber': './src/app/tab-content-grabber/main.ts',
-      background: './src/app/worker/main.ts',
-    },
-  },
-  resolve: {
-    mainFields: ['browser', 'module', 'main'],
-    // Explicitly allow Fuse.js (and others) to be bundled
-    alias: {
-      'fuse.js': path.resolve('./node_modules/fuse.js/dist/fuse.mjs'),
-    },
-  },
-  optimization: {
-    concatenateModules: true,
-    splitChunks: {
-      cacheGroups: {
-        // prevent background.js from splitting
-        background: {
-          name: 'background',
-          chunks: (chunk) => chunk.name === 'background',
-          enforce: true,
+  environments: {
+    web: {
+      plugins: [pluginReact()],
+      source: {
+        entry: {
+          popup: './src/app/popup-ui/main.tsx',
+          'search-dashboard': './src/app/search-dashboard-ui/main.tsx',
         },
-        defaultVendors: {
-          test: /[\\/]node_modules[\\/](?!fuse\.js)/,
-          name: 'vendors',
-          chunks: (chunk) => chunk.name !== 'background',
+      },
+      resolve: {
+        mainFields: ['browser', 'module', 'main'],
+        // Explicitly allow Fuse.js (and others) to be bundled
+        alias: {
+          'fuse.js': path.resolve('./node_modules/fuse.js/dist/fuse.mjs'),
+        },
+      },
+      html: {
+        title: 'Reverie - Personal History Browser',
+      },
+      optimization: {
+        concatenateModules: true,
+        splitChunks: {
+          cacheGroups: {
+            // prevent background.js from splitting
+            background: {
+              name: 'background',
+              chunks: (chunk) => chunk.name === 'background',
+              enforce: true,
+            },
+            defaultVendors: {
+              test: /[\\/]node_modules[\\/](?!fuse\.js)/,
+              name: 'vendors',
+              chunks: (chunk) => chunk.name !== 'background',
+            },
+          },
+        },
+      },
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filenameHash: false,
+        minify: { js: false },
+        cleanDistPath: true,
+        sourceMap: true,
+        target: 'web',
+      },
+      tools: {
+        rspack: {
+          builtins: {
+            define: {
+              'process.env.NODE_ENV': JSON.stringify(
+                process.env.NODE_ENV || 'production',
+              ),
+            },
+          },
+          externalsType: 'var', // force internal bundling
+          externalsPresets: { web: false },
         },
       },
     },
-  },
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filenameHash: false,
-    minify: { js: false },
-    cleanDistPath: true,
-    target: 'web',
-  },
-  tools: {
-    rspack: {
-      builtins: {
-        define: {
-          'process.env.NODE_ENV': JSON.stringify(
-            process.env.NODE_ENV || 'production',
-          ),
+    webworker: {
+      source: {
+        entry: {
+          'tab-content-grabber': './src/app/tab-content-grabber/main.ts',
+          background: './src/app/worker/main.ts',
         },
       },
-      externalsType: 'var', // force internal bundling
-      externalsPresets: { web: false },
+      resolve: {
+        mainFields: ['browser', 'module', 'main'],
+        extensions: ['.ts', '.tsx', '.js', '.jsx', '.mjs', '.cjs'],
+        alias: {
+          'fuse.js': path.resolve('./node_modules/fuse.js/dist/fuse.mjs'),
+        },
+        conditionNames: ['import', 'module', 'browser', 'require'],
+      },
+      optimization: {
+        concatenateModules: true,
+      },
+      output: {
+        path: path.resolve(__dirname, 'dist'),
+        filenameHash: false,
+        minify: { js: false },
+        sourceMap: true,
+        cleanDistPath: true,
+        target: 'web-worker',
+      },
+      tools: {
+        rspack: {
+          builtins: {
+            define: {
+              'process.env.NODE_ENV': JSON.stringify(
+                process.env.NODE_ENV || 'production',
+              ),
+            },
+          },
+          // 🔥 KEY FIXES BELOW 🔥
+          externals: {}, // completely disable all externals
+          externalsType: 'none', // do not assume any external format
+          externalsPresets: { web: false, node: false }, // don't use node or web defaults
+          resolve: {
+            byDependency: {
+              esm: { fullySpecified: false },
+            },
+          },
+        },
+      },
     },
   },
 });

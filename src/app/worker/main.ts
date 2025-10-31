@@ -9,6 +9,8 @@ console.log('background worker is starting up');
   // await ChromeAIHandler.getInstance().setupAI();
   // await HistoryCollector.getInstance().syncHistory();
   // await HistoryCollector.getInstance().collectHistory();
-  await TabContentHandler.getInstance().startTabContentReader();
-  await HistorySearchHandler.getInstance().setupHistorySearchQueryListener();
+  await Promise.all([
+    HistorySearchHandler.getInstance().setupHistorySearchQueryListener(),
+    TabContentHandler.getInstance().startTabContentReader(),
+  ]);
 })();

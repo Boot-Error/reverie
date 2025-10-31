@@ -20,6 +20,7 @@ export interface CardTheme {
 }
 
 export interface HistoryCollectionCard {
+  clusterName: string;
   cardTitle: string;
   cardDescription: string;
   theme: CardTheme;

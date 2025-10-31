@@ -4,7 +4,10 @@ import { TabContentDb } from '../../../common/datastore/tab-content-db';
 import { DashboardHandler } from './dashboard-handler';
 import { ClusteredWebpagesDb } from '../../../common/datastore/clustered-webpages-db';
 import findClusterForDocument from '../../../common/llm-functions/document-cluster-selection';
-import { test } from '../../../common/history-search/full-text-search.handler';
+import {
+  HistoryFullTextSearch,
+  test,
+} from '../../../common/history-search/full-text-search.handler';
 // import { HistoryFullTextSearch } from '../../../common/history-search/full-text-search.handler';
 
 export class TabContentHandler {
@@ -134,10 +137,10 @@ export class TabContentHandler {
           await TabContentDb.getInstance().getTabContentByUrl(url);
         if (tabDetails) {
           console.log('adding tab', tabDetails);
-          // await HistoryFullTextSearch.getInstance().addDocument(
-          //   url,
-          //   tabDetails?.contentSummary,
-          // );
+          await HistoryFullTextSearch.getInstance().addDocument(
+            url,
+            tabDetails?.contentSummary,
+          );
         }
       }),
     );
