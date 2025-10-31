@@ -50,30 +50,30 @@ export class HistorySearchHandler {
       },
     );
 
-    const queryClusterScores = await scoreQueryWithClusters(query, allClusters);
+    // const queryClusterScores = await scoreQueryWithClusters(query, allClusters);
 
-    const scoringCluster = queryClusterScores.reduce(
-      (acc, current) => {
-        return current.score >= acc.score ? current : acc;
-      },
-      { clusterName: '', score: 0 },
-    );
+    // const scoringCluster = queryClusterScores.reduce(
+    //   (acc, current) => {
+    //     return current.score >= acc.score ? current : acc;
+    //   },
+    //   { clusterName: '', score: 0 },
+    // );
 
-    this.historySearchResultEventChannel.send(
-      {},
-      {
-        eventType: 'SEARCH_CLUSTER_RESULT',
-        searchId,
-        scoringCluster: scoringCluster.clusterName,
-      },
-    );
+    // this.historySearchResultEventChannel.send(
+    //   {},
+    //   {
+    //     eventType: 'SEARCH_CLUSTER_RESULT',
+    //     searchId,
+    //     scoringCluster: scoringCluster.clusterName,
+    //   },
+    // );
 
-    const webPages = await TabContentDb.getInstance().getAllTabsOfCluster(
-      scoringCluster.clusterName,
-    );
+    const webPages = await TabContentDb.getInstance().getAllTabs();
 
     await Promise.all(
-      webPages.map(async (tab) => {
+      webPages.map(async (url) => {
+        const tab = await TabContentDb.getInstance().getTabContentByUrl(url);
+        if (!tab) return;
         const result = await scoreQueryWithTabSummary(
           query,
           tab.contentSummary,

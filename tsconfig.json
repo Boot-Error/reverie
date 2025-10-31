@@ -9,7 +9,7 @@
 
     /* modules */
     "module": "ESNext",
-    "moduleDetection": "force",
+    "moduleDetection": "auto",
     "moduleResolution": "bundler",
     "verbatimModuleSyntax": true,
     "resolveJsonModule": true,
@@ -23,5 +23,5 @@
     "noUnusedParameters": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["dist"]
 }

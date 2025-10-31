@@ -92,9 +92,9 @@ function* watchHistorySearchResultEvents() {
           historySearchSliceActions.addSearchResults({
             searchResult: {
               navigateUrl: event.navigateUrl,
-              contentSummary: event.contentSummary,
+              contentSummary: event.contentSummary || '',
               score: event.relevanceScore,
-              highlightText: event.highlightText,
+              highlightText: event.highlightText || '',
             },
           }),
         );

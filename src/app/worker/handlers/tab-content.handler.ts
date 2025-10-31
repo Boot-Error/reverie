@@ -3,8 +3,9 @@ import { ChromeExtensionConnector } from '../connectors/chrome-extension-connect
 import { TabContentDb } from '../../../common/datastore/tab-content-db';
 import { DashboardHandler } from './dashboard-handler';
 import { ClusteredWebpagesDb } from '../../../common/datastore/clustered-webpages-db';
-import { findNonSerializableValue } from '@reduxjs/toolkit';
 import findClusterForDocument from '../../../common/llm-functions/document-cluster-selection';
+import { test } from '../../../common/history-search/full-text-search.handler';
+// import { HistoryFullTextSearch } from '../../../common/history-search/full-text-search.handler';
 
 export class TabContentHandler {
   private static instance: TabContentHandler;
@@ -113,6 +114,8 @@ export class TabContentHandler {
       });
       await DashboardHandler.getInstance().updateThematicClusters();
     }
+
+    await this.loadTabsToSearchIndex();
   }
 
   private async bufferedClustering() {
@@ -121,5 +124,22 @@ export class TabContentHandler {
       this.lowRankingTabsCapturedTotal = 0;
       await DashboardHandler.getInstance().updateThematicClusters();
     }
+  }
+
+  private async loadTabsToSearchIndex() {
+    const urls = await TabContentDb.getInstance().getAllTabs();
+    await Promise.all(
+      urls.map(async (url) => {
+        const tabDetails =
+          await TabContentDb.getInstance().getTabContentByUrl(url);
+        if (tabDetails) {
+          console.log('adding tab', tabDetails);
+          // await HistoryFullTextSearch.getInstance().addDocument(
+          //   url,
+          //   tabDetails?.contentSummary,
+          // );
+        }
+      }),
+    );
   }
 }
